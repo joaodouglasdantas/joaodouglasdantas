@@ -1,0 +1,61 @@
+<div align="center">
+  <img src="https://i.pinimg.com/originals/a0/0a/6d/a00a6d0c2ee5d9c6e3b08e7ff91c30e7.gif" width="100%" alt="Pixel Art Retro Coding Banner" />
+
+  # 🕹️ Press Start: Olá, eu sou o João Douglas! 🍄
+
+  *“Transformando tempo e pixels em código de alta performance.”* ⭐💻
+</div>
+
+---
+
+## 👾 Player Stats
+
+- 🏰 **Base de Operações:** Brasil.
+- 💼 **Classe:** Desenvolvedor de Software.
+- ⭐ **Missão Atual:** Ser um Automatizador de Processos.
+- 🎮 **Passatempos:** Jogos / Dança.
+
+---
+
+## 🧰 Inventário (Tech Stack)
+
+> *As ferramentas equipadas no momento para enfrentar os bosses do dia a dia:*
+
+<div align="center">
+  <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" />
+  <img src="https://img.shields.io/badge/Ruby-CC342D?style=for-the-badge&logo=ruby&logoColor=white" />
+  <img src="https://img.shields.io/badge/Ruby_on_Rails-CC0000?style=for-the-badge&logo=ruby-on-rails&logoColor=white" />
+  <img src="https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white" />
+  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" />
+  <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" />
+  <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" />
+  <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white" />
+  <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" />
+  <img src="https://img.shields.io/badge/n8n-EA4B71?style=for-the-badge&logo=n8n&logoColor=white" />
+</div>
+
+---
+
+## 🏆 High Scores (GitHub Stats)
+
+<div align="center">
+  <a href="https://github.com/joaodouglasdantas">
+    <img height="180em" src="https://github-readme-stats.vercel.app/api?username=joaodouglasdantas&show_icons=true&theme=tokyonight&include_all_commits=true&count_private=true"/>
+    <img height="180em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=joaodouglasdantas&layout=compact&langs_count=7&theme=tokyonight"/>
+  </a>
+</div>
+
+---
+
+## 🌐 Multiplayer (Contato)
+
+*Pronto para o modo cooperativo? Me chame aqui:*
+
+<div align="center">
+  <a href="https://www.linkedin.com/in/joão-douglas-dantas-a48a16247" target="_blank">
+    <img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank">
+  </a>
+  <a href="mailto:joaodouglasdantas02b@gmail.com">
+    <img src="https://img.shields.io/badge/-Email-D14836?style=for-the-badge&logo=gmail&logoColor=white" target="_blank">
+  </a>
+</div>
