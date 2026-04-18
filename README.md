@@ -10,10 +10,11 @@
 
 ## 👾 Player Stats
 
-- 🏰 **Base de Operações:** Brasil.
-- 💼 **Classe:** Desenvolvedor de Software.
-- ⭐ **Missão Atual:** Ser um Automatizador de Processos.
-- 🎮 **Passatempos:** Jogos / Dança.
+<div align="center">
+  <a href="https://github.com/joaodouglasdantas">
+    <img src="https://readme-typing-svg.demolab.com/?font=Fira+Code&weight=600&size=20&pause=2000&color=7AA2F7&center=true&vCenter=true&width=800&lines=Base+de+Operações:+Brasil;Classe:+Desenvolvedor+de+Software;Missão+Atual:+Automatizador+de+Processos;Passatempos:+Jogos+/+Dança" alt="Typing SVG" />
+  </a>
+</div>
 
 ---
 
@@ -53,9 +54,9 @@
 
 <div align="center">
   <a href="https://www.linkedin.com/in/joão-douglas-dantas-a48a16247" target="_blank">
-    <img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank">
+    <img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn">
   </a>
   <a href="mailto:joaodouglasdantas02b@gmail.com">
-    <img src="https://img.shields.io/badge/-Email-D14836?style=for-the-badge&logo=gmail&logoColor=white" target="_blank">
+    <img src="https://img.shields.io/badge/-Email-D14836?style=for-the-badge&logo=gmail&logoColor=white" alt="Email">
   </a>
 </div>
