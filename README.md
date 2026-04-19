@@ -46,6 +46,20 @@
 
 ---
 
+## 🌾 Fazendinha de Commits (Activity Graph)
+
+> *Cada commit é uma semente plantada. Veja o que está crescendo hoje:*
+
+<div align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./profile-3d-contrib/profile-night-view.svg">
+    <source media="(prefers-color-scheme: light)" srcset="./profile-3d-contrib/profile-green-animate.svg">
+    <img alt="Fazendinha de Commits 3D" src="./profile-3d-contrib/profile-green-animate.svg">
+  </picture>
+</div>
+
+---
+
 ## 🌐 Multiplayer (Contato)
 
 *Pronto para o modo cooperativo? Me chame aqui:*
