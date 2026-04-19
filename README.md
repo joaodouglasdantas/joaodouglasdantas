@@ -51,7 +51,7 @@
 > *Cada commit é uma semente plantada. Veja o que está crescendo hoje:*
 
 <div align="center">
-  <img alt="Fazendinha de Commits 3D" src="./profile-3d-contrib/fazendinha-marrom.svg">
+  <img alt="Fazendinha de Commits 3D" src="./profile-3d-contrib/fazendinha-marrom">
 </div>
 
 ---
