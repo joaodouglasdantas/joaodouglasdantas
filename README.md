@@ -11,7 +11,7 @@
 ## 👾 Player Stats
 
 <div align="center">
-  <img src="https://readme-typing-svg.demolab.com/?font=Fira+Code&weight=600&size=20&pause=2000&color=7AA2F7&center=true&vCenter=true&width=800&lines=Base+de+Opera%C3%A7%C3%B5es%3A+Brasil;Classe%3A+Desenvolvedor+de+Software;Miss%C3%A3o+Atual%3A+Automatizador+de+Processos;Passatempos%3A+Jogos+%2F+Dan%C3%A7a" alt="Typing SVG" />
+  <img src="https://readme-typing-svg.demolab.com/?font=Fira+Code&weight=600&size=20&pause=2000&color=7AA2F7&center=true&vCenter=true&width=800&lines=Base+de+Opera%C3%A7%C3%B5es%3A+Brasil;Classe%3A+Desenvolvedor+de+Software;Miss%C3%A3o+Atual%3A+Automatizar+Processos;Passatempos%3A+Jogos+%2F+Dan%C3%A7a" alt="Typing SVG" />
 </div>
 
 ---
