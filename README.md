@@ -46,12 +46,12 @@
 
 ---
 
-## 🌾 Fazendinha de Commits (Activity Graph)
+## 🌈 Cidade Arco-Íris (Activity Graph)
 
-> *Cada commit é uma semente plantada. Veja o que está crescendo hoje:*
+> *Cada commit é uma morada de fada. Veja o que está sendo construído hoje:*
 
 <div align="center">
-  <img alt="Fazendinha de Commits 3D" src="profile-3d-contrib/profile-night-rainbow.svg">
+  <img alt="Cidade de Commits 3D" src="profile-3d-contrib/profile-night-rainbow.svg">
 </div>
 
 ---
