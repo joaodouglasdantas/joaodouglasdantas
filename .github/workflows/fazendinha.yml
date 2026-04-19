@@ -2,15 +2,18 @@ name: Generate 3D Commits Farm
 
 on:
   schedule:
-    - cron: "0 18 * * *" # Atualiza todo dia no final da tarde
-  workflow_dispatch: # Permite rodar o script manualmente
+    - cron: "0 18 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
     name: generate-github-profile-3d-contrib
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: yoshi389111/github-profile-3d-contrib@0.7.1
         env:
@@ -22,5 +25,5 @@ jobs:
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add -A .
-          git commit -m "🚜 Atualizando a fazendinha de commits"
+          git commit -m "🚜 Atualizando a fazendinha de commits" || echo "Nada novo para plantar hoje"
           git push
