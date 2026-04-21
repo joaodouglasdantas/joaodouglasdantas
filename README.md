@@ -38,6 +38,12 @@
 ## 🏆 High Scores (GitHub Stats)
 
 <div align="center">
+  <img height="260" src="https://github-readme-stats-eta-seven-77.vercel.app/api?username=joaodouglasdantas&show_icons=true&theme=tokyonight&include_all_commits=true&count_private=true&rank_icon=github&border_radius=12"/>
+  &nbsp;
+  <img height="220" src="https://github-readme-stats-eta-seven-77.vercel.app/api/top-langs/?username=joaodouglasdantas&layout=donut&theme=tokyonight&langs_count=5&hide=html,css&border_radius=12&size_weight=0.5&count_weight=0.5"/>
+</div>
+
+<div align="center">
   <a href="https://github.com/joaodouglasdantas">
     <img height="180em" src="https://github-readme-stats.vercel.app/api?username=joaodouglasdantas&show_icons=true&theme=tokyonight&include_all_commits=true&count_private=true"/>
     <img height="180em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=joaodouglasdantas&layout=compact&langs_count=7&theme=tokyonight"/>
