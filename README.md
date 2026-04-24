@@ -3,7 +3,7 @@
 
   # 🕹️ Press Start: Olá, eu sou o João Douglas! 🍄
 
-  *“Transformando tempo e pixels em código de alta performance.”* ⭐💻
+  *“Transformando tempo e pixels em código.”* ⭐💻
 </div>
 
 ---
