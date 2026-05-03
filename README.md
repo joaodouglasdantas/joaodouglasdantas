@@ -73,3 +73,5 @@
 ![Activity Graph](https://github-readme-activity-graph.vercel.app/graph?username=joaodouglasdantas&theme=rogue&hide_border=true)
 
 <img src="https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=joaodouglasdantas&theme=radical" />
+
+[![Activity Graph](https://github-readme-activity-graph.vercel.app/graph?username=joaodouglasdantas&bg_color=0d1117&color=ff79c6&line=bd93f9&point=ff79c6&area=true&hide_border=true)](https://github.com/joaodouglasdantas)
