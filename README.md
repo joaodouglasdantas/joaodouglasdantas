@@ -67,3 +67,5 @@
     <img src="https://img.shields.io/badge/-Email-D14836?style=for-the-badge&logo=gmail&logoColor=white" alt="Email">
   </a>
 </div>
+
+![Estatísticas do GitHub](https://github-readme-stats.vercel.app/api?username=joaodouglasdantas&show_icons=true&theme=radical&title_color=FFD700&icon_color=FF00FF&text_color=00FFFF&bg_color=0D1117&border_radius=10&border_color=FF0000)
