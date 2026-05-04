@@ -48,6 +48,7 @@
   <img src="https://img.shields.io/badge/render-%2346E3B7.svg?style=for-the-badge&logo=render&logoColor=black" />
   <img src="https://img.shields.io/badge/railway-%230B0D0E.svg?style=for-the-badge&logo=railway&logoColor=white" />
   <img src="https://img.shields.io/badge/mongodb-%2347A248.svg?style=for-the-badge&logo=mongodb&logoColor=white" />
+  <img src="https://img.shields.io/badge/cloudflare%20R2-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" />
 </p>
 
 ---
