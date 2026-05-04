@@ -20,6 +20,7 @@
 
 > *As ferramentas equipadas no momento para enfrentar os bosses do dia a dia:*
 
+<h3 align="center">Hotbar</h3>
 <div align="center">
   <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" />
   <img src="https://img.shields.io/badge/Ruby-CC342D?style=for-the-badge&logo=ruby&logoColor=white" />
@@ -33,7 +34,7 @@
   <img src="https://img.shields.io/badge/n8n-EA4B71?style=for-the-badge&logo=n8n&logoColor=white" />
 </div>
 
-<h3 align="center">Frameworks & Fullstack</h3>
+<h3 align="center">Inventário</h3>
 <p align="center">
   <img src="https://img.shields.io/badge/laravel-%23FF2D20.svg?style=for-the-badge&logo=laravel&logoColor=white" />
   <img src="https://img.shields.io/badge/django-%23092E20.svg?style=for-the-badge&logo=django&logoColor=white" />
