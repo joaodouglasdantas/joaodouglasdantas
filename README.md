@@ -72,16 +72,6 @@
 
 ---
 
-## 🌈 Cidade Arco-Íris (Activity Graph)
-
-> *Cada commit é uma morada de fada. Veja o que está sendo construído hoje:*
-
-<div align="center">
-  <img alt="Cidade de Commits 3D" src="profile-3d-contrib/profile-night-rainbow.svg">
-</div>
-
----
-
 ## 🌐 Multiplayer (Contato)
 
 *Pronto para o modo cooperativo? Me chame aqui:*
