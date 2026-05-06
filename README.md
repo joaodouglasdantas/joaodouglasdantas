@@ -1,5 +1,3 @@
-## 👾 Player Stats
-
 <div align="center">
   <img src="./image.png" width="80%" alt="Pixel Art Retro Coding Banner" />
 </div>
