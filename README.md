@@ -1,7 +1,5 @@
-<div align="center" style="background-color:#2b2b2b; padding:20px; border-radius:10px;">
-  <img src="./image.png" width="60%" alt="Pixel Art Retro Coding Banner com Moldura de Monitor" />
-  <h1>🎮 Press Start: Olá, eu sou João Douglas! 🍄</h1>
-  <p><em>“Transformando tempo e pixels em código.” 🌟💻</em></p>
+<div align="center">
+  <img src="./image.png" width="80%" alt="Pixel Art Retro Coding Banner" />
 </div>
 
 ---
