@@ -1,9 +1,5 @@
 <div align="center">
   <img src="./image.png" width="80%" alt="Pixel Art Retro Coding Banner" />
-
-  # 🕹️ Press Start: Olá, eu sou João Douglas! 🍄
-
-  *“Transformando tempo e pixels em código.”* ⭐💻
 </div>
 
 ---
