@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://i.pinimg.com/originals/a0/0a/6d/a00a6d0c2ee5d9c6e3b08e7ff91c30e7.gif" width="100%" alt="Pixel Art Retro Coding Banner" />
+  <img src="./image.png" />
 
   # 🕹️ Press Start: Olá, eu sou João Douglas! 🍄
 
