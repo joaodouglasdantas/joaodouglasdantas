@@ -60,8 +60,7 @@
   <img height="260" src="https://github-readme-stats-eta-seven-77.vercel.app/api?username=joaodouglasdantas&show_icons=true&theme=tokyonight&include_all_commits=true&count_private=true&rank_icon=github&border_radius=12"/>
   &nbsp;
   <img height="220" src="https://github-readme-stats-eta-seven-77.vercel.app/api/top-langs/?username=joaodouglasdantas&layout=donut&theme=tokyonight&langs_count=5&hide=html,css&border_radius=12&size_weight=0.5&count_weight=0.5"/>
-</div>
-
+</div></b>
 
 > *🔴: +25xp 🟡: +50xp 🟢: +75xp 🔵: +100xp*
 
