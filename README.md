@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="./image.png" width="80%" alt="Pixel Art Retro Coding Banner" />
+  <img src="./images/image.png" width="80%" alt="Pixel Art Retro Coding Banner" />
 </div>
 
 <div align="center">
