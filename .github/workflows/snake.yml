@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: Platane/snk@v3
         with:
-          github_user_name: joaodouglasdantas
+          github_user_name: dvdg
           outputs: |
             dist/snake.svg?color_snake=#ff0000,#ff9900,#ffff00,#00ff00,#00ffff,#0000ff,#9900ff
 
