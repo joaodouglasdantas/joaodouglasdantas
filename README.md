@@ -62,6 +62,8 @@
   <img height="220" src="https://github-readme-stats-eta-seven-77.vercel.app/api/top-langs/?username=joaodouglasdantas&layout=donut&theme=tokyonight&langs_count=5&hide=html,css&border_radius=12&size_weight=0.5&count_weight=0.5"/>
 </div>
 
+> *🔴: +25xp 🟡: +50xp 🟢: +75xp 🔵: +100xp*
+
 ![snake gif](https://raw.githubusercontent.com/joaodouglasdantas/joaodouglasdantas/output/github-contribution-grid-snake-dark.svg)
 
 ---
