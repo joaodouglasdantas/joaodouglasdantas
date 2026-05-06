@@ -72,6 +72,10 @@
 
 ---
 
+![Snake animation](https://raw.githubusercontent.com/joaodouglasdantas/joaodouglasdantas/output/github-contribution-grid-snake-dark.svg)
+
+---
+
 ## 🌐 Multiplayer (Contato)
 
 *Pronto para o modo cooperativo? Me chame aqui:*
