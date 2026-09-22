@@ -283,7 +283,7 @@ function sign(t, s, x, y) {
     fruit: `<g transform="translate(8 -5)"><path d="M0 -5q1 -4 4 -4" stroke="#5a3a1a" stroke-width="1.3" fill="none"/><ellipse cx="3" cy="-7" rx="2.6" ry="1.3" fill="url(#leaf)"/><circle r="5.5" fill="url(#fr0)"/><circle cx="-2" cy="-2" r="1.3" fill="#fff" opacity=".7"/></g>`,
     drop: `<g transform="translate(8 -5)"><path d="M0 -7C3 -3 5 0 5 2.5A5 5 0 0 1 -5 2.5C-5 0 -3 -3 0 -7Z" fill="#6cb8ff" stroke="#2f7fd8" stroke-width=".8"/><circle cx="-1.8" cy="1.5" r="1.1" fill="#fff" opacity=".7"/></g>`,
   };
-  const stat = (ix, n, lbl, sx) => `<g transform="translate(${sx} ${h - 20})">${icon[ix]}<text x="20" y="0" class="s-stat">${n}</text><text x="${20 + String(n).length * 8.6 + 4}" y="0" class="s-lbl">${lbl}</text></g>`;
+  const stat = (ix, n, lbl, sx) => `<g transform="translate(${sx} ${h - 20})">${icon[ix]}<text x="20" y="0"><tspan class="s-stat">${n}</tspan><tspan class="s-lbl" dx="5">${lbl}</tspan></text></g>`;
   const planks = [h / 3, (2 * h) / 3].map((py) => `<path d="M6 ${f(py)}H${w - 6}" stroke="${t.plank}" stroke-width="1.2" opacity=".55"/>`).join("");
   const grain = [14, 44, 80].map((py, i) => `<path d="M${20 + i * 30} ${py}q40 -3 90 0t90 1" stroke="${t.plank}" stroke-width=".7" fill="none" opacity=".35"/>`).join("");
   const nails = [[10, 10], [w - 10, 10], [10, h - 10], [w - 10, h - 10]].map(([nx, ny]) => `<circle cx="${nx}" cy="${ny}" r="2" fill="${t.woodEdge}"/><circle cx="${nx - 0.6}" cy="${ny - 0.6}" r=".7" fill="#fff" opacity=".4"/>`).join("");
@@ -294,10 +294,7 @@ function sign(t, s, x, y) {
     <rect x="0" y="0" width="${w}" height="${h}" rx="8" fill="url(#wood)" stroke="${t.woodEdge}" stroke-width="2"/>
     ${planks}${grain}${nails}
     <text x="22" y="26" class="s-title">FAZENDA DE ${esc(s.user || "").toUpperCase()}</text>
-    <g filter="url(#engrave)">
-      <text x="22" y="62" class="s-big">${s.total.toLocaleString("pt-BR")}</text>
-      <text x="${22 + s.total.toLocaleString("pt-BR").length * 15.5 + 6}" y="62" class="s-unit">contribuições no último ano</text>
-    </g>
+    <text x="22" y="62" filter="url(#engrave)"><tspan class="s-big">${s.total.toLocaleString("pt-BR")}</tspan><tspan class="s-unit" dx="10">contribuições no último ano</tspan></text>
     ${stat("flower", s.flowers, "flores", 18)}${stat("fruit", s.harvest, "colheitas", 112)}${stat("drop", s.streak, "dias seguidos", 222)}
   </g>`;
 }
