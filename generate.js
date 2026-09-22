@@ -78,131 +78,246 @@ const pick = (arr, seed) => arr[Math.floor(rand(seed) * arr.length)];
 // ---------- temas ----------
 const THEMES = {
   light: {
-    text: "#57606a", soil: "#d8b48a", soilDark: "#b98d5e", soilEmpty: "#e9d6bd",
-    stem: "#3f8f3a", leaf: "#5cb85c", leafDark: "#2e7d32", center: "#ffc107",
-    cloud: "#ffffff", cloudEdge: "#c9d6e3", rain: "#58a6ff",
+    text: "#57606a", textStrong: "#24292f",
+    grassTop: "#9ad15f", grassBottom: "#6fb043", grassTile: "#8cc653", grassTileAlt: "#97cf5c", tuft: "#5d9e36",
+    dirtFront: "#a9754a", dirtFrontDark: "#7c5132", dirtSide: "#8a5d38", strata: "#6b4529",
+    bedLip: "#6e4a2c", bedTop: "#8b5e3a", bedTopLight: "#a4744b", furrow: "#6a452a",
+    stem: "#4a8f2f", leafLight: "#8ed65a", leafDark: "#3f8a2a",
+    trunk: "#8a5a33", trunkDark: "#5e3b1f", canopyLight: "#7fcf4f", canopyDark: "#2f7a2a",
+    cloudLight: "#ffffff", cloudDark: "#c7d3e0", rain: "#4ea1ff", shadow: "#1b3a10",
+    night: false,
   },
   dark: {
-    text: "#8b949e", soil: "#5b4030", soilDark: "#46301f", soilEmpty: "#2d2219",
-    stem: "#56b04f", leaf: "#6fcf6a", leafDark: "#3c9a3a", center: "#ffd54f",
-    cloud: "#c9d1d9", cloudEdge: "#6e7681", rain: "#79c0ff",
+    text: "#8b949e", textStrong: "#e6edf3",
+    grassTop: "#3f7a3a", grassBottom: "#2a5a2c", grassTile: "#376e35", grassTileAlt: "#3c7439", tuft: "#285a27",
+    dirtFront: "#5e3f28", dirtFrontDark: "#3d2717", dirtSide: "#4a3120", strata: "#35220f",
+    bedLip: "#3a2615", bedTop: "#503420", bedTopLight: "#654229", furrow: "#3a2615",
+    stem: "#4f9a3a", leafLight: "#7cc95a", leafDark: "#2f7a2e",
+    trunk: "#6e4a2c", trunkDark: "#48301b", canopyLight: "#5fb24a", canopyDark: "#1f5a24",
+    cloudLight: "#d5dde8", cloudDark: "#7d8ba0", rain: "#79c0ff", shadow: "#000000",
+    night: true,
   },
 };
-const PETALS = ["#f06292", "#ba68c8", "#ffb74d", "#64b5f6", "#ff8a80", "#fff176"];
-const FRUITS = ["#e53935", "#ff7043", "#8e24aa", "#fdd835", "#43a047"];
+const PETALS = [
+  ["#ff9ec4", "#e0457f"], ["#e2b0ff", "#9c4fd6"], ["#ffe08a", "#f0a500"],
+  ["#a8d8ff", "#3d8fe0"], ["#ffb3a7", "#e8553f"], ["#ffffff", "#d9d9e8"],
+];
+const FRUITS = [
+  ["#ff7a70", "#c62828"], ["#ffb36b", "#e6620a"], ["#c38bff", "#6a1fb0"], ["#fff07a", "#e0b000"],
+];
 
-// ---------- desenho ----------
-const CELL = 16;      // tamanho de cada canteiro (1 dia)
-const TILE = 14;
-const PAD_X = 12;
-const PAD_TOP = 34;   // espaço para a nuvem
-const PAD_BOTTOM = 26;
+// ---------- geometria isométrica ----------
+// cada dia é um losango; semanas andam para a direita, dias da semana para frente
+const U = [17, 4];     // +1 semana
+const V = [-11, 7.5];  // +1 dia
+const DEPTH = 16;      // espessura do terreno
+const PAD = 16;
+const SKY = 78;        // espaço acima para plantas e nuvem
 
-const CYCLE = 14;       // segundos por ciclo completo
-const GROW_END = 0.62;  // fração do ciclo em que a última coluna termina de crescer
-const HOLD_END = 0.92;  // começa a "colheita" (sumir) aqui
+const CYCLE = 16;       // segundos por ciclo
+const GROW_END = 0.6;   // quando a nuvem termina de passar
+const HOLD_END = 0.93;  // quando começa a colheita
 
-function plant(level, cx, by, seed, t) {
-  const petal = pick(PETALS, seed + "p");
-  const fruit = pick(FRUITS, seed + "f");
-  const lean = (rand(seed + "l") - 0.5) * 1.6;
-  switch (level) {
-    case 1: // broto
-      return `<path d="M${cx} ${by} v-4" stroke="${t.stem}" stroke-width="1.2" stroke-linecap="round"/>
-        <ellipse cx="${cx - 1.8}" cy="${by - 4.2}" rx="2" ry="1.1" fill="${t.leaf}" transform="rotate(-25 ${cx - 1.8} ${by - 4.2})"/>
-        <ellipse cx="${cx + 1.8}" cy="${by - 4.2}" rx="2" ry="1.1" fill="${t.leaf}" transform="rotate(25 ${cx + 1.8} ${by - 4.2})"/>`;
-    case 2: // planta jovem
-      return `<path d="M${cx} ${by} q${lean} -4 0 -8" stroke="${t.stem}" stroke-width="1.3" fill="none" stroke-linecap="round"/>
-        <ellipse cx="${cx - 2.4}" cy="${by - 3.5}" rx="2.6" ry="1.2" fill="${t.leafDark}" transform="rotate(-30 ${cx - 2.4} ${by - 3.5})"/>
-        <ellipse cx="${cx + 2.4}" cy="${by - 5}" rx="2.6" ry="1.2" fill="${t.leaf}" transform="rotate(30 ${cx + 2.4} ${by - 5})"/>
-        <ellipse cx="${cx}" cy="${by - 8.5}" rx="1.3" ry="2" fill="${t.leaf}"/>`;
-    case 3: { // flor
-      const fy = by - 9.5;
-      const petals = [0, 72, 144, 216, 288]
-        .map((a) => {
-          const r = (a * Math.PI) / 180;
-          return `<circle cx="${(cx + Math.cos(r) * 2.1).toFixed(2)}" cy="${(fy + Math.sin(r) * 2.1).toFixed(2)}" r="1.5" fill="${petal}"/>`;
-        }).join("");
-      return `<path d="M${cx} ${by} q${lean} -4 0 -9" stroke="${t.stem}" stroke-width="1.3" fill="none"/>
-        <ellipse cx="${cx - 2.4}" cy="${by - 3}" rx="2.6" ry="1.2" fill="${t.leafDark}" transform="rotate(-30 ${cx - 2.4} ${by - 3})"/>
-        <ellipse cx="${cx + 2.4}" cy="${by - 4.5}" rx="2.6" ry="1.2" fill="${t.leaf}" transform="rotate(30 ${cx + 2.4} ${by - 4.5})"/>
-        ${petals}<circle cx="${cx}" cy="${fy}" r="1.2" fill="${t.center}"/>`;
-    }
-    case 4: // arbusto com frutos
-      return `<path d="M${cx} ${by} v-4" stroke="${t.stem}" stroke-width="1.6"/>
-        <circle cx="${cx - 2.6}" cy="${by - 6}" r="3.2" fill="${t.leafDark}"/>
-        <circle cx="${cx + 2.6}" cy="${by - 6}" r="3.2" fill="${t.leafDark}"/>
-        <circle cx="${cx}" cy="${by - 8.6}" r="3.6" fill="${t.leaf}"/>
-        <circle cx="${cx - 2.3}" cy="${by - 5.2}" r="1.4" fill="${fruit}"/>
-        <circle cx="${cx + 2.5}" cy="${by - 6.4}" r="1.4" fill="${fruit}"/>
-        <circle cx="${cx + 0.3}" cy="${by - 9.6}" r="1.4" fill="${fruit}"/>
-        <circle cx="${cx - 2.7}" cy="${by - 5.6}" r="0.45" fill="#fff" opacity=".7"/>`;
-    default:
-      return "";
-  }
-}
+const f = (n) => +n.toFixed(1);
 
 function render(cal, theme) {
   const t = THEMES[theme];
-  const nWeeks = cal.weeks.length;
-  const W = PAD_X * 2 + nWeeks * CELL;
-  const H = PAD_TOP + 7 * CELL + PAD_BOTTOM;
-  const pct = (x) => (x * 100).toFixed(2) + "%";
+  const nW = cal.weeks.length;
+  const OX = PAD - (-0.4 * U[0] + 7.4 * V[0]);
+  const OY = SKY;
+  const P = (w, d) => [OX + w * U[0] + d * V[0], OY + w * U[1] + d * V[1]];
+  const pt = (w, d, dy = 0) => { const [x, y] = P(w, d); return `${f(x)},${f(y + dy)}`; };
+  const poly = (pts, fill, extra = "") => `<polygon points="${pts.join(" ")}" fill="${fill}" ${extra}/>`;
 
-  // uma animação por semana: a coluna cresce quando a nuvem passa por ela
-  let keyframes = "";
-  for (let w = 0; w < nWeeks; w++) {
-    const start = (w / nWeeks) * (GROW_END - 0.06);
-    const end = start + 0.06;
-    keyframes += `@keyframes g${w}{0%,${pct(start)}{transform:scale(0)}${pct(end - 0.015)}{transform:scale(1.15)}${pct(end)},${pct(HOLD_END)}{transform:scale(1)}100%{transform:scale(0)}}
-.w${w}{animation:g${w} ${CYCLE}s ease-out infinite}\n`;
+  const [, yMax] = P(nW + 0.4, 7.4);
+  const [xMax] = P(nW + 0.4, -0.4);
+  const W = Math.ceil(xMax + PAD);
+  const H = Math.ceil(yMax + DEPTH + PAD);
+
+  // ---- terreno ----
+  const a = -0.4, b = nW + 0.4, c = -0.4, e = 7.4;
+  let ground = "";
+  ground += poly([pt(a, e), pt(b, e), pt(b, e, DEPTH), pt(a, e, DEPTH)], "url(#dirtFront)");
+  ground += poly([pt(b, c), pt(b, e), pt(b, e, DEPTH), pt(b, c, DEPTH)], t.dirtSide);
+  for (const k of [0.45, 0.75]) {
+    ground += `<path d="M${pt(a, e, DEPTH * k)} L${pt(b, e, DEPTH * k)} L${pt(b, c, DEPTH * k)}" stroke="${t.strata}" stroke-width="1" fill="none" opacity=".35" stroke-dasharray="7 4"/>`;
   }
+  ground += poly([pt(a, c), pt(b, c), pt(b, e), pt(a, e)], "url(#grass)");
+  // borda de grama caindo sobre a terra
+  ground += `<path d="M${pt(a, e)} L${pt(b, e)} L${pt(b, c)}" stroke="${t.grassBottom}" stroke-width="3" fill="none" stroke-linejoin="round"/>`;
 
+  // ---- canteiros ----
+  const g = 0.09;
   let tiles = "";
-  let plants = "";
+  const plants = [];
   cal.weeks.forEach((days, w) => {
-    days.forEach((d) => {
-      const x = PAD_X + w * CELL;
-      const y = PAD_TOP + d.weekday * CELL;
-      const fill = d.level === 0 ? t.soilEmpty : t.soil;
-      tiles += `<rect x="${x}" y="${y}" width="${TILE}" height="${TILE}" rx="3" fill="${fill}"><title>${d.date}: ${d.count} contribuições</title></rect>`;
-      if (d.level > 0) {
-        tiles += `<path d="M${x + 3} ${y + TILE - 2.5}h${TILE - 6}" stroke="${t.soilDark}" stroke-width="1" stroke-linecap="round"/>`;
-        plants += `<g class="p w${w}">${plant(d.level, x + TILE / 2, y + TILE - 2.5, d.date, t)}</g>`;
+    days.forEach((day) => {
+      const d = day.weekday;
+      const corners = (dy) => [pt(w + g, d + g, dy), pt(w + 1 - g, d + g, dy), pt(w + 1 - g, d + 1 - g, dy), pt(w + g, d + 1 - g, dy)];
+      const title = `<title>${day.date}: ${day.count} contribuições</title>`;
+      if (day.level === 0) {
+        const alt = (w + d) % 2 === 0;
+        tiles += `<polygon points="${corners(0).join(" ")}" fill="${alt ? t.grassTile : t.grassTileAlt}">${title}</polygon>`;
+        if (rand(day.date + "tuft") < 0.35) {
+          const [x, y] = P(w + 0.3 + rand(day.date + "tx") * 0.4, d + 0.3 + rand(day.date + "ty") * 0.4);
+          tiles += `<path d="M${f(x - 2)} ${f(y)}l1 -3M${f(x)} ${f(y)}v-3.6M${f(x + 2)} ${f(y)}l-1 -3" stroke="${t.tuft}" stroke-width=".9" stroke-linecap="round"/>`;
+        }
+      } else {
+        const lift = 2.4;
+        tiles += `<polygon points="${corners(0).join(" ")}" fill="${t.bedLip}"/>`;
+        tiles += `<polygon points="${corners(-lift).join(" ")}" fill="url(#bed)">${title}</polygon>`;
+        // sulcos na terra
+        for (const k of [0.35, 0.65]) {
+          tiles += `<path d="M${pt(w + 0.2, d + k, -lift)} L${pt(w + 0.8, d + k, -lift)}" stroke="${t.furrow}" stroke-width=".8" opacity=".6"/>`;
+        }
+        const [x, y] = P(w + 0.5, d + 0.5);
+        plants.push({ w, x, y: y - lift, level: day.level, seed: day.date });
       }
     });
   });
 
-  // nuvem que passa regando o canteiro
-  const cloudEnd = PAD_X + nWeeks * CELL;
+  plants.sort((p, q) => p.y - q.y);
+  const plantSvg = plants
+    .map((p) => `<g transform="translate(${f(p.x)} ${f(p.y)})"><g class="p w${p.w}">${plant(p.level, p.seed, t)}</g></g>`)
+    .join("");
+
+  // ---- animação ----
+  const pct = (x) => (x * 100).toFixed(2) + "%";
+  const startCol = -2, endCol = nW + 2;
+  const at = (w) => ((w + 0.5 - startCol) / (endCol - startCol)) * GROW_END;
+  let css = "";
+  for (let w = 0; w < nW; w++) {
+    const s = at(w), en = s + 0.045;
+    css += `@keyframes g${w}{0%,${pct(s)}{transform:scale(0)}${pct(en - 0.012)}{transform:scale(1.12)}${pct(en)},${pct(HOLD_END)}{transform:scale(1)}100%{transform:scale(0)}}.w${w}{animation:g${w} ${CYCLE}s ease-out infinite}`;
+  }
+  const [cx0, cy0] = P(startCol, 3.5);
+  const [cx1, cy1] = P(endCol, 3.5);
+  css += `@keyframes move{0%{transform:translate(${f(cx0)}px,${f(cy0)}px);opacity:0}4%{opacity:1}${pct(GROW_END - 0.03)}{opacity:1}${pct(GROW_END)}{transform:translate(${f(cx1)}px,${f(cy1)}px);opacity:0}100%{transform:translate(${f(cx1)}px,${f(cy1)}px);opacity:0}}`;
+  css += `.cloud{animation:move ${CYCLE}s linear infinite}`;
+  css += `@keyframes rain{to{stroke-dashoffset:-20}}.rain{stroke-dasharray:5 5;animation:rain .45s linear infinite}`;
+  css += `@keyframes float{50%{transform:translateY(-3px)}}.puff{animation:float 3s ease-in-out infinite}`;
+
   const cloud = `<g class="cloud">
-    <g class="rain" stroke="${t.rain}" stroke-width="1.2" stroke-linecap="round">
-      <path d="M-6 18v4"/><path d="M0 20v4"/><path d="M6 18v4"/>
+    <ellipse cx="0" cy="0" rx="26" ry="9" fill="${t.shadow}" opacity="${t.night ? 0.35 : 0.18}"/>
+    <g stroke="${t.rain}" stroke-width="1.3" stroke-linecap="round" opacity=".8" class="rain">
+      <path d="M-12 -46V-6"/><path d="M-4 -44V-2"/><path d="M5 -45V-4"/><path d="M13 -46V-7"/>
     </g>
-    <circle cx="-7" cy="12" r="5" fill="${t.cloud}" stroke="${t.cloudEdge}"/>
-    <circle cx="7" cy="12" r="5" fill="${t.cloud}" stroke="${t.cloudEdge}"/>
-    <circle cx="0" cy="8" r="7" fill="${t.cloud}" stroke="${t.cloudEdge}"/>
-    <rect x="-7" y="10" width="14" height="7" fill="${t.cloud}"/>
+    <g class="puff" filter="url(#soft)">
+      <circle cx="-15" cy="-54" r="10" fill="url(#cloud)"/>
+      <circle cx="15" cy="-54" r="10" fill="url(#cloud)"/>
+      <circle cx="-3" cy="-62" r="14" fill="url(#cloud)"/>
+      <circle cx="10" cy="-60" r="10" fill="url(#cloud)"/>
+      <rect x="-15" y="-56" width="30" height="12" rx="6" fill="url(#cloud)"/>
+    </g>
   </g>`;
 
+  // ---- vaga-lumes (tema noite) ----
+  let fireflies = "";
+  if (t.night) {
+    css += `@keyframes blink{0%,100%{opacity:0}50%{opacity:1}}@keyframes drift{50%{transform:translate(4px,-6px)}}`;
+    for (let i = 0; i < 22; i++) {
+      const w = rand("ffw" + i) * nW, d = rand("ffd" + i) * 7;
+      const [x, y] = P(w, d);
+      const dy = 10 + rand("ffh" + i) * 26;
+      const dur = (2 + rand("ffs" + i) * 3).toFixed(1), delay = (rand("ffl" + i) * 5).toFixed(1);
+      fireflies += `<g style="animation:drift ${dur * 2}s ease-in-out ${delay}s infinite"><circle cx="${f(x)}" cy="${f(y - dy)}" r="1.6" fill="#fff59d" filter="url(#glow)" style="animation:blink ${dur}s ease-in-out ${delay}s infinite;opacity:0"/></g>`;
+    }
+  }
+
+  // ---- defs ----
+  const grad = (id, c1, c2, x2 = 0, y2 = 1) => `<linearGradient id="${id}" x1="0" y1="0" x2="${x2}" y2="${y2}"><stop offset="0" stop-color="${c1}"/><stop offset="1" stop-color="${c2}"/></linearGradient>`;
+  const rad = (id, c1, c2) => `<radialGradient id="${id}" cx=".35" cy=".3" r=".75"><stop offset="0" stop-color="${c1}"/><stop offset="1" stop-color="${c2}"/></radialGradient>`;
+  const defs = `<defs>
+    ${grad("grass", t.grassTop, t.grassBottom, 1, 1)}
+    ${grad("dirtFront", t.dirtFront, t.dirtFrontDark)}
+    ${grad("bed", t.bedTopLight, t.bedTop, 1, 1)}
+    ${grad("leaf", t.leafLight, t.leafDark, 1, 1)}
+    ${grad("trunk", t.trunk, t.trunkDark, 1, 0)}
+    ${rad("canopy", t.canopyLight, t.canopyDark)}
+    ${rad("cloud", t.cloudLight, t.cloudDark)}
+    ${rad("center", "#fff3b0", "#e0a000")}
+    ${PETALS.map(([l, dk], i) => rad("pe" + i, l, dk)).join("")}
+    ${FRUITS.map(([l, dk], i) => rad("fr" + i, l, dk)).join("")}
+    <filter id="soft" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="2" stdDeviation="1.5" flood-opacity=".18"/></filter>
+    <filter id="glow" x="-300%" y="-300%" width="700%" height="700%"><feGaussianBlur stdDeviation="1.6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>`;
+
   const harvest = cal.weeks.flat().filter((d) => d.level === 4).length;
-  const label = `${cal.total} contribuições no último ano · ${harvest} dias de colheita`;
+  const flowers = cal.weeks.flat().filter((d) => d.level === 3).length;
+  const [lx, ly] = [PAD, H - PAD - 4];
+  const label = `<text x="${lx}" y="${ly - 20}" class="big">${cal.total.toLocaleString("pt-BR")}</text>
+    <text x="${lx}" y="${ly}" class="small">contribuições no último ano · ${flowers} flores · ${harvest} colheitas</text>`;
 
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}">
+${defs}
 <style>
 .p{transform-box:fill-box;transform-origin:50% 100%}
-${keyframes}
-@keyframes move{0%{transform:translateX(${PAD_X - 20}px)}${pct(GROW_END)}{transform:translateX(${cloudEnd + 10}px)}${pct(GROW_END + 0.001)},100%{transform:translateX(${W + 40}px)}}
-.cloud{animation:move ${CYCLE}s linear infinite}
-@keyframes drop{0%{transform:translateY(-2px);opacity:0}50%{opacity:1}100%{transform:translateY(4px);opacity:0}}
-.rain{animation:drop .6s linear infinite}
-text{font:11px -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;fill:${t.text}}
+${css}
+text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+.big{font-size:22px;font-weight:700;fill:${t.textStrong}}
+.small{font-size:11px;fill:${t.text}}
 </style>
+${ground}
 ${tiles}
-${plants}
+${plantSvg}
+${fireflies}
 ${cloud}
-<text x="${PAD_X}" y="${H - 8}">${label}</text>
+${label}
 </svg>`;
+}
+
+// ---------- plantas (desenhadas com a base em 0,0) ----------
+const leaf = (x, y, len, ang, w = 0.45) =>
+  `<path d="M0 0Q${f(len / 2)} ${f(-len * w)} ${len} 0Q${f(len / 2)} ${f(len * w)} 0 0Z" fill="url(#leaf)" transform="translate(${f(x)} ${f(y)}) rotate(${f(ang)})"/>`;
+const shadow = (rx) => `<ellipse cx="0" cy="0" rx="${rx}" ry="${f(rx * 0.4)}" fill="#000" opacity=".22"/>`;
+
+function plant(level, seed, t) {
+  const lean = (rand(seed + "l") - 0.5) * 3;
+  const pe = Math.floor(rand(seed + "p") * PETALS.length);
+  const fr = Math.floor(rand(seed + "f") * FRUITS.length);
+  const flip = rand(seed + "x") < 0.5 ? -1 : 1;
+
+  switch (level) {
+    case 1: // broto
+      return `${shadow(4)}
+        <path d="M0 0Q${f(lean * 0.3)} -3 0 -6" stroke="${t.stem}" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+        ${leaf(0, -6, 5.5, -155)}${leaf(0, -6, 5.5, -25)}`;
+    case 2: // muda com folhas
+      return `${shadow(6)}
+        <path d="M0 0Q${f(lean)} -7 ${f(lean * 0.4)} -14" stroke="${t.stem}" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        ${leaf(0, -3, 7, -160 * flip + (flip < 0 ? 0 : 0))}${leaf(0, -5, 7.5, -20)}
+        ${leaf(lean * 0.5, -9, 6.5, -150)}${leaf(lean * 0.5, -10.5, 6, -35)}
+        ${leaf(lean * 0.4, -14, 5, -80)}`;
+    case 3: { // flor
+      const fx = lean * 0.6, fy = -20;
+      let petals = "";
+      for (let i = 0; i < 6; i++) {
+        const ang = i * 60;
+        const r = (ang * Math.PI) / 180;
+        const px = fx + Math.cos(r) * 3.4, py = fy + Math.sin(r) * 2.4;
+        petals += `<ellipse cx="${f(px)}" cy="${f(py)}" rx="3.2" ry="2.2" fill="url(#pe${pe})" transform="rotate(${ang} ${f(px)} ${f(py)})"/>`;
+      }
+      return `${shadow(6.5)}
+        <path d="M0 0Q${f(lean)} -10 ${f(fx)} ${fy}" stroke="${t.stem}" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+        ${leaf(0, -4, 8, -165)}${leaf(0, -6, 8, -15)}${leaf(lean * 0.6, -12, 6.5, -145)}
+        ${petals}<ellipse cx="${f(fx)}" cy="${fy}" rx="2.4" ry="1.9" fill="url(#center)"/>`;
+    }
+    case 4: { // árvore frutífera
+      const fruits = [[-6, -20], [5, -23], [-1, -28], [7, -16], [-4, -14]]
+        .filter((_, i) => rand(seed + "fr" + i) < 0.85)
+        .map(([x, y]) => `<circle cx="${x}" cy="${y}" r="2.3" fill="url(#fr${fr})"/><circle cx="${x - 0.8}" cy="${y - 0.8}" r=".6" fill="#fff" opacity=".8"/>`)
+        .join("");
+      return `${shadow(10)}
+        <path d="M-1.6 0L-1 -12L1 -12L1.6 0Z" fill="url(#trunk)"/>
+        <path d="M0 -9L-4 -13M0 -10L4 -14" stroke="${t.trunkDark}" stroke-width="1.2" stroke-linecap="round"/>
+        <circle cx="-6" cy="-17" r="7" fill="url(#canopy)"/>
+        <circle cx="6" cy="-18" r="7" fill="url(#canopy)"/>
+        <circle cx="0" cy="-24" r="8.5" fill="url(#canopy)"/>
+        ${fruits}`;
+    }
+    default:
+      return "";
+  }
 }
 
 // ---------- main ----------
