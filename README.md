@@ -37,12 +37,10 @@
 </div>
 <br><br>
 
-```html
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/joaodouglasdantas/joaodouglasdantas/output/farm-dark.svg">
   <img alt="Minha fazenda de commits" src="https://raw.githubusercontent.com/joaodouglasdantas/joaodouglasdantas/output/farm.svg">
 </picture>
-```
 
 ---
 
