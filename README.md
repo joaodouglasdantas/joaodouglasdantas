@@ -37,9 +37,12 @@
 </div>
 <br><br>
 
-> *🔴: +25xp 🟡: +50xp 🟢: +75xp 🔵: +100xp*
-
-![snake gif](https://raw.githubusercontent.com/joaodouglasdantas/joaodouglasdantas/output/github-contribution-grid-snake-dark.svg)
+```html
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/joaodouglasdantas/joaodouglasdantas/output/farm-dark.svg">
+  <img alt="Minha fazenda de commits" src="https://raw.githubusercontent.com/joaodouglasdantas/joaodouglasdantas/output/farm.svg">
+</picture>
+```
 
 ---
 
