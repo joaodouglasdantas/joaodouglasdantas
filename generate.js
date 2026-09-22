@@ -85,6 +85,7 @@ const THEMES = {
     stem: "#4a8f2f", leafLight: "#8ed65a", leafDark: "#3f8a2a",
     trunk: "#8a5a33", trunkDark: "#5e3b1f", canopyLight: "#7fcf4f", canopyDark: "#2f7a2a",
     cloudLight: "#ffffff", cloudDark: "#c7d3e0", rain: "#4ea1ff", shadow: "#1b3a10",
+    woodLight: "#d39a5c", woodDark: "#a4683a", woodEdge: "#6e4222", plank: "#8a5530", signText: "#fff6e3", signShadow: "#5a3418",
     night: false,
   },
   dark: {
@@ -95,6 +96,7 @@ const THEMES = {
     stem: "#4f9a3a", leafLight: "#7cc95a", leafDark: "#2f7a2e",
     trunk: "#6e4a2c", trunkDark: "#48301b", canopyLight: "#5fb24a", canopyDark: "#1f5a24",
     cloudLight: "#d5dde8", cloudDark: "#7d8ba0", rain: "#79c0ff", shadow: "#000000",
+    woodLight: "#8a5a33", woodDark: "#5e3a1e", woodEdge: "#2e1a0b", plank: "#3e2511", signText: "#ffe9c2", signShadow: "#1a0d04",
     night: true,
   },
 };
@@ -132,7 +134,7 @@ function render(cal, theme) {
   const [, yMax] = P(nW + 0.4, 7.4);
   const [xMax] = P(nW + 0.4, -0.4);
   const W = Math.ceil(xMax + PAD);
-  const H = Math.ceil(yMax + DEPTH + PAD);
+  const H = Math.ceil(yMax + DEPTH + PAD) + 28;
 
   // ---- terreno ----
   const a = -0.4, b = nW + 0.4, c = -0.4, e = 7.4;
@@ -236,26 +238,32 @@ function render(cal, theme) {
     ${rad("canopy", t.canopyLight, t.canopyDark)}
     ${rad("cloud", t.cloudLight, t.cloudDark)}
     ${rad("center", "#fff3b0", "#e0a000")}
+    ${grad("wood", t.woodLight, t.woodDark)}
+    ${grad("post", t.woodDark, t.woodEdge, 1, 0)}
+    <filter id="engrave"><feDropShadow dx="0" dy="1.5" stdDeviation="0" flood-color="${t.signShadow}" flood-opacity=".8"/></filter>
     ${PETALS.map(([l, dk], i) => rad("pe" + i, l, dk)).join("")}
     ${FRUITS.map(([l, dk], i) => rad("fr" + i, l, dk)).join("")}
     <filter id="soft" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="2" stdDeviation="1.5" flood-opacity=".18"/></filter>
     <filter id="glow" x="-300%" y="-300%" width="700%" height="700%"><feGaussianBlur stdDeviation="1.6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
   </defs>`;
 
-  const harvest = cal.weeks.flat().filter((d) => d.level === 4).length;
-  const flowers = cal.weeks.flat().filter((d) => d.level === 3).length;
-  const [lx, ly] = [PAD, H - PAD - 4];
-  const label = `<text x="${lx}" y="${ly - 20}" class="big">${cal.total.toLocaleString("pt-BR")}</text>
-    <text x="${lx}" y="${ly}" class="small">contribuições no último ano · ${flowers} flores · ${harvest} colheitas</text>`;
-
+  const all = cal.weeks.flat();
+  const harvest = all.filter((d) => d.level === 4).length;
+  const flowers = all.filter((d) => d.level === 3).length;
+  let streak = 0, run = 0;
+  for (const d of all) { run = d.count > 0 ? run + 1 : 0; streak = Math.max(streak, run); }
+  const label = sign(t, { user: cal.user, total: cal.total, flowers, harvest, streak }, PAD + 6, H - PAD - 146);
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}">
 ${defs}
 <style>
 .p{transform-box:fill-box;transform-origin:50% 100%}
 ${css}
 text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
-.big{font-size:22px;font-weight:700;fill:${t.textStrong}}
-.small{font-size:11px;fill:${t.text}}
+.s-title{font-size:12px;font-weight:700;letter-spacing:1.5px;fill:${t.signText};opacity:.85}
+.s-big{font-size:30px;font-weight:800;fill:${t.signText}}
+.s-unit{font-size:14px;font-weight:600;fill:${t.signText};opacity:.9}
+.s-stat{font-size:14px;font-weight:700;fill:${t.signText}}
+.s-lbl{font-size:11px;fill:${t.signText};opacity:.8}
 </style>
 ${ground}
 ${tiles}
@@ -264,6 +272,34 @@ ${fireflies}
 ${cloud}
 ${label}
 </svg>`;
+}
+
+// ---------- placa de madeira ----------
+function sign(t, s, x, y) {
+  const w = 346, h = 112;
+  const esc = (v) => String(v).replace(/[<>&"]/g, "");
+  const icon = {
+    flower: `<g transform="translate(8 -5)">${[0, 72, 144, 216, 288].map((a) => { const r = a * Math.PI / 180; return `<circle cx="${f(Math.cos(r) * 3.6)}" cy="${f(Math.sin(r) * 3.6)}" r="3" fill="url(#pe0)"/>`; }).join("")}<circle r="2.2" fill="url(#center)"/></g>`,
+    fruit: `<g transform="translate(8 -5)"><path d="M0 -5q1 -4 4 -4" stroke="#5a3a1a" stroke-width="1.3" fill="none"/><ellipse cx="3" cy="-7" rx="2.6" ry="1.3" fill="url(#leaf)"/><circle r="5.5" fill="url(#fr0)"/><circle cx="-2" cy="-2" r="1.3" fill="#fff" opacity=".7"/></g>`,
+    drop: `<g transform="translate(8 -5)"><path d="M0 -7C3 -3 5 0 5 2.5A5 5 0 0 1 -5 2.5C-5 0 -3 -3 0 -7Z" fill="#6cb8ff" stroke="#2f7fd8" stroke-width=".8"/><circle cx="-1.8" cy="1.5" r="1.1" fill="#fff" opacity=".7"/></g>`,
+  };
+  const stat = (ix, n, lbl, sx) => `<g transform="translate(${sx} ${h - 20})">${icon[ix]}<text x="20" y="0" class="s-stat">${n}</text><text x="${20 + String(n).length * 8.6 + 4}" y="0" class="s-lbl">${lbl}</text></g>`;
+  const planks = [h / 3, (2 * h) / 3].map((py) => `<path d="M6 ${f(py)}H${w - 6}" stroke="${t.plank}" stroke-width="1.2" opacity=".55"/>`).join("");
+  const grain = [14, 44, 80].map((py, i) => `<path d="M${20 + i * 30} ${py}q40 -3 90 0t90 1" stroke="${t.plank}" stroke-width=".7" fill="none" opacity=".35"/>`).join("");
+  const nails = [[10, 10], [w - 10, 10], [10, h - 10], [w - 10, h - 10]].map(([nx, ny]) => `<circle cx="${nx}" cy="${ny}" r="2" fill="${t.woodEdge}"/><circle cx="${nx - 0.6}" cy="${ny - 0.6}" r=".7" fill="#fff" opacity=".4"/>`).join("");
+  const post = (px) => `<rect x="${px}" y="${h - 6}" width="12" height="30" rx="2" fill="url(#post)"/><ellipse cx="${px + 6}" cy="${h + 24}" rx="12" ry="3.5" fill="#000" opacity=".2"/>`;
+  return `<g transform="translate(${x} ${y})">
+    ${post(40)}${post(w - 52)}
+    <rect x="0" y="3" width="${w}" height="${h}" rx="8" fill="#000" opacity=".22"/>
+    <rect x="0" y="0" width="${w}" height="${h}" rx="8" fill="url(#wood)" stroke="${t.woodEdge}" stroke-width="2"/>
+    ${planks}${grain}${nails}
+    <text x="22" y="26" class="s-title">FAZENDA DE ${esc(s.user || "").toUpperCase()}</text>
+    <g filter="url(#engrave)">
+      <text x="22" y="62" class="s-big">${s.total.toLocaleString("pt-BR")}</text>
+      <text x="${22 + s.total.toLocaleString("pt-BR").length * 15.5 + 6}" y="62" class="s-unit">contribuições no último ano</text>
+    </g>
+    ${stat("flower", s.flowers, "flores", 18)}${stat("fruit", s.harvest, "colheitas", 112)}${stat("drop", s.streak, "dias seguidos", 222)}
+  </g>`;
 }
 
 // ---------- plantas (desenhadas com a base em 0,0) ----------
@@ -324,6 +360,7 @@ function plant(level, seed, t) {
 (async () => {
   if (!DEMO && !USER) throw new Error("Informe --user seu-usuario (ou use --demo).");
   const cal = DEMO ? demoCalendar() : await fetchCalendar(USER);
+  cal.user = USER || "demo";
   fs.mkdirSync(OUT, { recursive: true });
   fs.writeFileSync(path.join(OUT, "farm.svg"), render(cal, "light"));
   fs.writeFileSync(path.join(OUT, "farm-dark.svg"), render(cal, "dark"));
